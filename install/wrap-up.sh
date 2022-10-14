@@ -1,4 +1,12 @@
 if [[ "$MINIMIZE_DOWNTIME" ]]; then
+###
+ # @Author: huangyf huangyf@efly.cc
+ # @Date: 2022-10-14 11:01:22
+ # @LastEditors: huangyf huangyf@efly.cc
+ # @LastEditTime: 2022-10-14 14:43:48
+ # @FilePath: \sentry\install\wrap-up.sh
+ # @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+### 
   echo "${_group}Waiting for Sentry to start ..."
 
   # Start the whole setup, except nginx and relay.
@@ -7,7 +15,7 @@ if [[ "$MINIMIZE_DOWNTIME" ]]; then
   $dc exec -T nginx nginx -s reload
 
   docker run --rm --network="${COMPOSE_PROJECT_NAME}_default" alpine ash \
-    -c 'while [[ "$(wget -T 1 -q -O- http://web:9000/_health/)" != "ok" ]]; do sleep 0.5; done'
+    -c 'while [[ "$(wget -T 1 -q -O- http://web:6000/_health/)" != "ok" ]]; do sleep 0.5; done'
 
   # Make sure everything is up. This should only touch relay and nginx
   $dc up -d
